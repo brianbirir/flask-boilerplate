@@ -3,3 +3,8 @@ env
 
 # IDEs and text editors config files/ folders
 .idea
+
+
+# pycache
+
+__pycache__
