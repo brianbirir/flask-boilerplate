@@ -5,7 +5,7 @@ from passlib.hash import pbkdf2_sha256
 db = SQLAlchemy()
 
 
-class Base(db.Model):
+class BaseModel(db.Model):
     __abstract__ = True
 
     id = db.Column(db.Integer, primary_key=True)
@@ -13,11 +13,27 @@ class Base(db.Model):
     updated_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
 
     def save_to_db(self):
+        """
+
+        :return: none
+
+        This function saves data to the database
+        """
         db.session.add(self)
         db.session.commit()
 
+    def delete_from_db(self):
+        """
 
-class UserModel(Base):
+        :return: none
+
+        This function deletes data from the database
+        """
+        db.session.delete(self)
+        db.session.commit()
+
+
+class UserModel(BaseModel):
 
     __tablename__ = 'Users'
     name = db.Column(db.String(128), nullable=False)

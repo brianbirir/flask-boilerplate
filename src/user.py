@@ -46,4 +46,16 @@ class User(Resource):
         pass
 
     def delete(self):
-        pass
+        parser.add_argument('user_id', type=int, help='The ID for the user', required=True)
+        data = parser.parse_args()
+
+        try:
+            user = UserModel.query.filter_by(id=data['user_id']).first()
+
+            if user:
+                user.delete_from_db()
+                return {"message": "This user has been deleted successfully"}, 200
+            else:
+                return {"message": "This user does not exist"}, 404
+        except Exception as e:
+            return {"message": str(e)}, 500
