@@ -7,8 +7,6 @@ A Flask boiler plate for kicking off Flask related development projects
 * JWTs (JSON Web Tokens)
 * Flask and it's dependencies (all defined in the `requirements.txt` file)
 
-# Flask Boiler Plate Notes
-
 ## Setup
 * Virtualenv - install a Python environment i.e. `virtualenv env` and activate it `source env/bin/activate`
 
@@ -48,3 +46,7 @@ python manage.py db upgrade
 ```
 
 ### Production Mode:
+
+
+## To-Do
+* Document API using Swagger
