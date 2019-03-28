@@ -1,25 +1,38 @@
 import os
 from flask import Flask
 from dotenv import load_dotenv
+from flask_migrate import Migrate
+from flask_restful import Api
+from src.model import db
+from src.user import User
 
 
-def create_app(config_object=''):
+def create_app(config_object='config.DevelopmentConfig'):
+    """
+    :param config_object:
+    :return: app
+
+    This factory returns the initialized Flask app
+
+    """
 
     # load dot env
     app_root = os.path.join(os.path.dirname(__file__), '..')
     dot_env_path = os.path.join(app_root, '.env')
     load_dotenv(dot_env_path)
 
-    # database configs
-    database_uri = os.getenv('DATABASE_URI')
-
     # initialize Flask app
     app = Flask(__name__)
     app.config.from_object(config_object)
 
-    # home page route
-    @app.route('/')
-    def home():
-        return 'Welcome home!'
+    # database configs and initialization
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URI')
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    db.init_app(app)
+    migrate = Migrate(app, db)
+
+    # resource routing
+    api = Api(app)
+    api.add_resource(User, '/api/user', '/api/user/<int:user_id>')  # user resource
 
     return app

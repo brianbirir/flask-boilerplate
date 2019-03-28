@@ -12,8 +12,12 @@ class Base(db.Model):
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
     updated_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
 
+    def save_to_db(self):
+        db.session.add(self)
+        db.session.commit()
 
-class User(Base):
+
+class UserModel(Base):
 
     __tablename__ = 'Users'
     name = db.Column(db.String(128), nullable=False)
