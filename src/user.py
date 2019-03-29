@@ -38,6 +38,15 @@ class User(Resource):
         parser.add_argument('password', type=str, help='The password for the user', required=True)
         return parser.parse_args()
 
+    @staticmethod
+    def check_existing_user(email_address):
+        """
+        method for checking for existing user during user registration.
+        the email address column has the unique value property on the users table
+        :return: query object
+        """
+        return UserModel.query.filter_by(email=email_address).first()
+
     def get(self):
         data = self.get_user_id_parsed_args()
 
@@ -60,15 +69,19 @@ class User(Resource):
         data_user_details = self.get_user_details_parsed_args()
         data_password = self.get_user_password_parsed_args()
 
-        user = UserModel(
-            email=data_user_details['email'],
-            name=data_user_details['name'],
-            password=UserModel.generate_hash(data_password['password'])
-        )
-
         try:
-            user.save_to_db()
-            return {"message": "User {} was created".format(data_user_details['name'])}, 200
+            # check if user exists by using email address value
+            if not self.check_existing_user(data_user_details['email']):
+                user = UserModel(
+                    email=data_user_details['email'],
+                    name=data_user_details['name'],
+                    password=UserModel.generate_hash(data_password['password'])
+                )
+                user.save_to_db()
+                return {"message": "User {} was created".format(data_user_details['name'])}, 200
+            else:
+                return {"message": "That email address already exists"}, 400
+
         except Exception as e:
             return {"message": str(e)}, 500
 
