@@ -3,7 +3,7 @@ env
 
 # IDEs and text editors config files/ folders
 .idea
-
+.vscode
 
 # pycache
 
