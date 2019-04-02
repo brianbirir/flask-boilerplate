@@ -8,15 +8,6 @@ from src.auth import Login
 
 class LoginTest(TestCase):
 
-    def create_app(self):
-        app = Flask(__name__)
-        app.config['TESTING'] = True
-
-        # resource routing
-        api = Api(app)
-        api.add_resource(Login, '/api/login')  # auth resource
-        return app
-
     def test_successful_login(self):
         r = requests.post(
             'http://127.0.0.1:5000/api/login',
@@ -38,6 +29,7 @@ class LoginTest(TestCase):
             data={"email":"test_another@gmail.com", "password":"1234567891"}
         )
         self.assert404(r)
+ 
     
 if __name__ == '__main__':
     unittest.main()
