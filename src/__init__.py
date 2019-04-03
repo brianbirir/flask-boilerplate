@@ -24,7 +24,10 @@ def create_app(config_object='config.DevelopmentConfig'):
 
     # initialize Flask app
     app = Flask(__name__)
-    app.config.from_object(config_object)
+    app.config.from_object(config_object) # load configurations object
+
+    # load secret key
+    app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 
     # database configs and initialization
     app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URI')
