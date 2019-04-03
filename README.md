@@ -1,5 +1,13 @@
-# Flask Boilerplate
-A Flask boiler plate for kicking off Flask related development projects
+# Flask RESTFul Boilerplate
+A Flask boiler plate for kicking off Flask RESTful related development projects. The key features of this boilerplate include:
+
+* ORM implementation using `Flask-SQLalchemy` with connection to any preferred database technology
+* RESTful implementation using `Flask-Restful`
+* Implementation of user authentication using JWTs (JSON Web Tokens). JWTs usage has been implemented using `pyjwts` library
+* Implementation of database migrations using `Flask-Migrate` and Alembic. A base and user model have been added in the `model.py` module to allow the creation of the users table in a designated database
+* Unit and functional tests for the above features
+
+Though this boilerplate is the basis of building a RESTFul API application, it can be extended to include user facing web pages through **Jinja2** Templating and Flask views rendering if desired.
 
 
 ## Requirements
