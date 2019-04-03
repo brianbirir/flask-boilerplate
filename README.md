@@ -2,7 +2,7 @@
 A Flask boiler plate for kicking off Flask RESTful related development projects. The key features of this boilerplate include:
 
 * ORM implementation using `Flask-SQLalchemy` with connection to any preferred database technology
-* RESTful implementation using `Flask-Restful`
+* RESTful implementation using `Flask-Restful` module
 * Implementation of user authentication using JWTs (JSON Web Tokens). JWTs usage has been implemented using `pyjwts` library
 * Implementation of database migrations using `Flask-Migrate` and Alembic. A base and user model have been added in the `model.py` module to allow the creation of the users table in a designated database
 * Unit and functional tests for the above features
@@ -16,7 +16,7 @@ Though this boilerplate is the basis of building a RESTFul API application, it c
 * Flask and it's dependencies (all defined in the `requirements.txt` file)
 
 ## Setup
-* Virtualenv - install a Python environment i.e. `virtualenv env` and activate it `source env/bin/activate`
+* Virtualenv - install a Python virual environment i.e. `virtualenv env` and activate it `source env/bin/activate`
 
 * Install Flask and dependencies and add them to `requirements.txt`
 
@@ -58,3 +58,4 @@ python manage.py db upgrade
 
 ## To-Do
 * Document API using Swagger
+* Dockerize - Add capability to run the application using Docker
