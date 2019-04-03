@@ -1,48 +1,34 @@
 import unittest
-import os
 import datetime
-from flask import current_app
-from src import create_app
-from src.utils.security.jwt_security import encode_jwt, decode_jwt
-
-
-# load app context to get secret key from config
-app = create_app()
-app.app_context().push()
-SECRET = current_app.config['SECRET_KEY']
-
-# set crypto algorithm type
-algo = 'HS256'
+from src.utils.security.jwt_security import encode_jwt, decode_jwt, set_payload
 
 # set expiry time for token to be 24 hours from time of creation
 expiry_time = datetime.datetime.utcnow() + datetime.timedelta(hours=24)
 
-payload = {
-        "sub": 1,
-        "iat": datetime.datetime.utcnow().timestamp(),
-        "exp": expiry_time.timestamp()
-    }
-
-payload_1 = {
-        "sub": 2,
-        "iat": datetime.datetime.utcnow().timestamp(),
-        "exp": expiry_time.timestamp()
-    }
+# subject id
+first_subject_id = 1
+second_subject_id = 2
 
 
 class JwtTest(unittest.TestCase):
 
-    def test_secret(self):
-        self.assertTrue(isinstance(SECRET.encode(encoding='utf-8'), bytes))
-
+    # check if returned token in bytes encoded
     def test_jwt_encode(self):
-        auth_token = encode_jwt(alg=algo, payload=payload)
+        auth_token = encode_jwt(first_subject_id)
         self.assertTrue(isinstance(auth_token, bytes))
 
+    # check if decoded subject id in the payload result is the same as the actual subject id used in the initial payload
+    # before token encoding
     def test_jwt_decode(self):
-        auth_token = encode_jwt(alg=algo, payload=payload_1)
-        payload_result = decode_jwt(auth_token, algo)
+        auth_token = encode_jwt(second_subject_id)
+        payload_result = decode_jwt(auth_token)
         self.assertEqual(payload_result, 2)
+
+    def test_payload(self):
+        payload = set_payload(first_subject_id)
+        self.assertIsInstance(payload['sub'], int)
+        self.assertIsInstance(payload['iat'], float)
+        self.assertIsInstance(payload['exp'], float)
 
 
 if __name__ == '__main__':
