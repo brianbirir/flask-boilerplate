@@ -6,6 +6,7 @@ from flask import Flask
 from flask_restful import Api
 from src.auth import Login
 
+
 class LoginTest(TestCase):
 
     def test_successful_login(self):
