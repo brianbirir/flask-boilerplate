@@ -22,7 +22,7 @@ class Login(Resource):
         try:
             user = UserModel.query.filter_by(email=data['email']).first()
 
-            # return user does not exist response if user's email does not exist
+            # return 404 response if user's email does not exist
             if not user:
                 return {"message":"This user does not exist"}, 404
             else:
