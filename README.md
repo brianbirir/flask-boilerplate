@@ -23,7 +23,7 @@ Though this boilerplate is the basis of building a RESTFul API application, it c
 ```bash
 $ pip freeze > requirements.rxt
 ```
-* Install and configure PostgreSQL database. The following commands create a user and a database. The user is then granted access to the database wtih certain privileges.
+* Install and configure PostgreSQL database. The following commands create a user and a database. The user is then granted access to the database with certain privileges. The user and database names are upto you (also password).
 
 ```
 create role flask_bp with login password 'flask_bp';
@@ -53,9 +53,20 @@ python manage.py db migrate
 python manage.py db upgrade
 ```
 
+The application can also be run using the entry point module i.e. `app.py`:
+
+```
+python app.py
+```
+
+>> When running this Flask application, ensure the virtual environment is activated.
+
+
 ### Production Mode:
+To-Do
 
 
 ## To-Do
-* Document API using Swagger
+* Document sample API using Swagger
 * Dockerize - Add capability to run the application using Docker
+* Update application configuration input 
