@@ -11,7 +11,7 @@ Though this boilerplate is the basis of building a RESTFul API application, it c
 
 
 ## Requirements
-* Python 3.6+
+* Python 3
 * JWTs (JSON Web Tokens) implementation for Python
 * Flask and it's dependencies (all defined in the `requirements.txt` file)
 
