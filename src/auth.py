@@ -8,9 +8,11 @@ class Login(Resource):
 
     @staticmethod
     def get_secret_key():
-        """
-        obtain secret key config via application context
-        :return: SECRET KEY
+        """Provide secret key config via application context
+        
+        Returns:
+            str: Secret key from env
+        
         """
         return current_app.config['SECRET_KEY']
 
