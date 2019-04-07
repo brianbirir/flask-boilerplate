@@ -1,15 +1,29 @@
 from datetime import datetime
+from flask import current_app
 from flask_restful import Resource, reqparse
 from src.model import UserModel
+from src.utils.security.jwt_security import decode_jwt
 
 
 class User(Resource):
 
     @staticmethod
-    def get_user_details_parsed_args():
+    def get_secret_key():
+        """Provide secret key config via application context
+        
+        Returns:
+            str: Secret key from env
+        
         """
-        method for parsing arguments received from the request
-        :return: parsed arguments
+        return current_app.config['SECRET_KEY']
+
+    @staticmethod
+    def get_user_details_parsed_args():
+        """Parse arguments received from the request.
+        
+        Returns:
+            A dictionary of the parsed request arguments
+
         """
         parser = reqparse.RequestParser()
         parser.add_argument('email', type=str,
@@ -19,10 +33,30 @@ class User(Resource):
         return parser.parse_args()
 
     @staticmethod
-    def get_user_id_parsed_args():
+    def get_auth_token():
+        """Parse the authentication token from the HTTP request body.
+
+        Returns:
+            A dictionary of the parsed request argument
+        
         """
-        method for parsing user id arg received from the request
-        :return: parsed user id
+        parser = reqparse.RequestParser()
+        parser.add_argument('Authorization',
+                            location='headers',
+                            help='The authentication token in the Authorization header \
+                             is required to access this resource',
+                            required=True)
+
+        auth_token = parser.parse_args()
+        return auth_token['Authorization'].split()[1]
+
+    @staticmethod
+    def get_user_id_parsed_args():
+        """Parse user id arg received from the HTTP request.
+
+        Returns:
+            A dictionary of the parsed request argument
+        
         """
         parser = reqparse.RequestParser()
         parser.add_argument('user_id', type=int, help='The ID for the user', required=True)
@@ -30,9 +64,11 @@ class User(Resource):
 
     @staticmethod
     def get_user_password_parsed_args():
-        """
-        method for parsing user password arg received from the request
-        :return: parsed user id
+        """Parse user password arg received from the HTTP request.
+
+        Returns:
+            A dictionary of the parsed request argument
+
         """
         parser = reqparse.RequestParser()
         parser.add_argument('password', type=str, help='The password for the user', required=True)
@@ -40,32 +76,59 @@ class User(Resource):
 
     @staticmethod
     def check_existing_user(email_address):
-        """
-        method for checking for existing user during user registration.
-        the email address column has the unique value property on the users table
-        :return: query object
+        """Return query object of an existing user or null
+
         """
         return UserModel.query.filter_by(email=email_address).first()
 
     def get(self):
-        data = self.get_user_id_parsed_args()
+        """Return user details as HTTP response based on HTTP request
+        
+        Returns:
+            JSON object: A 200 HTTP status response with details of a user
 
+            JSON object: A 404 HTTP status response for a non-existing user
+
+        Raises:
+            Exception: General exceptions aligned to SQLAlchemy in the form of a 500 HTTP status and JSON content-type response
+
+        """
+        data_token = self.get_auth_token()
+        
         try:
-            user = UserModel.query.filter_by(id=data['user_id']).first()
+            # check token validity
+            decoded_token_response = decode_jwt(data_token, self.get_secret_key())
 
-            if user:
-                response = {
-                    "user_id": user.id,
-                    "name": user.name,
-                    "email": user.email
-                }
-                return response, 200
+            if isinstance(decoded_token_response, int):
+                user = UserModel.query.filter_by(id=decoded_token_response).first()
+
+                if user:
+                    response = {
+                        "user_id": user.id,
+                        "name": user.name,
+                        "email": user.email
+                    }
+                    return response, 200
+                else:
+                    return {"message": "This user does not exist"}, 404
             else:
-                return {"message": "This user does not exist"}, 404
+                return {"message": decoded_token_response}, 403
         except Exception as e:
             return {"message": str(e)}, 500
 
     def post(self):
+        """Register a new user
+        
+        Returns:
+            JSON object: A 200 HTTP status response with name of the user
+
+            JSON object: A 404 HTTP status response for an existing user
+
+        Raises:
+            Exception: General exceptions aligned to SQLAlchemy in the form of a 500 HTTP status and 
+                JSON content-type response
+
+        """
         data_user_details = self.get_user_details_parsed_args()
         data_password = self.get_user_password_parsed_args()
 
@@ -86,6 +149,18 @@ class User(Resource):
             return {"message": str(e)}, 500
 
     def put(self):
+        """Update details of a user via PUT HTTP request
+        
+        Returns:
+            JSON object: A 200 HTTP status response with name of the user that was updated
+
+            JSON object: A 404 HTTP status response for a user that does not exist
+
+        Raises:
+            Exception: General exceptions aligned to SQLAlchemy in the form of a 500 HTTP status and 
+                JSON content-type response
+
+        """
         data_user_id = self.get_user_id_parsed_args()
         data_user_details = self.get_user_details_parsed_args()
         data_password = self.get_user_password_parsed_args()
@@ -107,6 +182,18 @@ class User(Resource):
             return {"message": str(e)}, 500
 
     def delete(self):
+        """Delete a user via DELETE HTTP request
+        
+        Returns:
+            JSON object: A 200 HTTP status response with confirmation message of the deleted user
+
+            JSON object: A 404 HTTP status response for a user that does not exist
+
+        Raises:
+            Exception: General exceptions aligned to SQLAlchemy in the form of a 500 HTTP status and 
+                JSON content-type response
+
+        """
         data_user_id = self.get_user_id_parsed_args()
 
         try:
