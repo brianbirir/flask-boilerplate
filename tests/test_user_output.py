@@ -7,7 +7,7 @@ class UserTest:
     def test_get_user_details():
         # login user
         login_response = requests.post(
-            'http://127.0.0.1:5000/api/login',
+            'http://127.0.0.1:8000/api/login',
             data={"email": "test@gmail.com",
                   "password": "1234567891"}
         )
@@ -16,7 +16,7 @@ class UserTest:
         
         # get user details
         get_user_response = requests.get(
-            'http://127.0.0.1:5000/api/user',
+            'http://127.0.0.1:8000/api/user',
             headers=headers
         )
         print(get_user_response.json())
@@ -28,7 +28,7 @@ class UserTest:
                     .SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c'
             headers = {'Authorization': 'Bearer ' + token}
             user_response = requests.get(
-                'http://127.0.0.1:5000/api/user',
+                'http://127.0.0.1:8000/api/user',
                 headers=headers
             )
             print(user_response.json())
@@ -40,7 +40,7 @@ class UserTest:
                 .SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c'
         headers = {'Authorization': 'Bearer ' + token}
         user_response = requests.get(
-            'http://127.0.0.1:5000/api/user',
+            'http://127.0.0.1:8000/api/user',
             headers=headers
         )
         print(user_response.json())
