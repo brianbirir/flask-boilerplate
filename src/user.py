@@ -116,7 +116,7 @@ class User(Resource):
             return {"message": str(e)}, 500
 
     def post(self):
-        """Registers a new user
+        """Registers a new user via POST HTTP request
         
         Returns:
             JSON object: A 200 HTTP status response with name of the user

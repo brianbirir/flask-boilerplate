@@ -5,7 +5,7 @@ from flask_migrate import Migrate
 from flask_restful import Api
 from src.model import db
 from src.user import User
-from src.auth import Login
+from src.auth import Login, Logout
 
 
 def create_app(config_object='config.DevelopmentConfig'):
@@ -33,6 +33,7 @@ def create_app(config_object='config.DevelopmentConfig'):
     # resource routing
     api = Api(app)
     api.add_resource(User, '/api/user', '/api/user/<int:user_id>')  # user resource
-    api.add_resource(Login, '/api/login')  # auth resource
+    api.add_resource(Login, '/api/login')  # login resource
+    api.add_resource(Logout, '/api/logout')  # logout resource
 
     return app
