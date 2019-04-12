@@ -4,10 +4,14 @@ from datetime import datetime, timedelta
 
 
 def set_payload(subject_id):
-    """
-    Generate payload from subject id and datetime objects
-    :param subject_id:
-    :return: dictionary object
+    """Generates JWT payload
+    
+    Args:
+        subject_id : An integer value representing the user's id obtained from Users table
+    
+    Returns:
+        dict: A dictionary mapping the payload values consisting of subject id, current UTC time
+        and expiry UTC time
     """
     # set expiry time for token to be 2 hours from time of creation
     current_time = datetime.utcnow()
@@ -22,9 +26,17 @@ def set_payload(subject_id):
 
 
 def encode_jwt(subject_id='', secret='', alg='HS256'):
-    """
-    Generate JWT authentication token
-    :return: string
+    """Generates JWT authentication token
+    
+    Args:
+        subject_id: An integer value representing the user's id obtained from Users table
+
+        secret: Secret key from environment variable
+
+        algorithm: The type of algorithm used to encrypt the JWT
+
+    Returns:
+        str: Encoded JWT
     """
     try:
         return jwt.encode(set_payload(subject_id), secret, algorithm=alg)
@@ -33,9 +45,22 @@ def encode_jwt(subject_id='', secret='', alg='HS256'):
 
 
 def decode_jwt(encoded_jwt, secret='', alg='HS256'):
-    """
-    Decode JWT authentication token
-    :return: int
+    """Decodes JWT authentication token
+
+    Args:
+        encoded_jwt: A string of the JWT
+
+        secret: Secret key from environment variable
+
+        algorithm: The type of algorithm used to decode the JWT
+
+    Returns:
+        int: The user's id
+
+    Raises:
+        ExpiredSignatureError: An error generated when token signature has expired
+
+        InvalidTokenError: An error generated when submitted token is invalid
     """
     try:
         payload = jwt.decode(encoded_jwt, secret, algorithms=alg)

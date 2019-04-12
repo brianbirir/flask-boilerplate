@@ -8,19 +8,21 @@ class Login(Resource):
 
     @staticmethod
     def get_secret_key():
-        """Provide secret key config via application context
+        """Provides secret key config via application context
         
         Returns:
-            str: Secret key from env
+            str: Secret key from environment variable
         
         """
         return current_app.config['SECRET_KEY']
 
     @staticmethod
     def get_login_details():
-        """
-        method for parsing login data from the request
-        :return: parsed login arguments
+        """Parses login data from the POST requests
+        
+        Returns:
+            JSON object: Email and password keys containing the mapped values from the POST request
+
         """
         parser = reqparse.RequestParser()
         parser.add_argument('email', type=str, help='The email of the user is required', required=True)
@@ -28,6 +30,18 @@ class Login(Resource):
         return parser.parse_args()
     
     def post(self):
+        """Receives data from HTTP POST request
+
+        Returns:
+            JSON object: 200 HTTP response with a dictionary of a user's details
+
+            JSON object: 403 HTTP response with a dictionary of an error message
+            
+            JSON object: 404 HTTP response with a dictionary of an error message
+            
+            JSON object: 500 HTTP response with a dictionary of an error message
+
+        """
         data = self.get_login_details()
 
         try:
@@ -56,8 +70,4 @@ class Login(Resource):
 
 
 class Logout(Resource):
-    pass
-
-
-class TokenGeneration(Resource):
     pass

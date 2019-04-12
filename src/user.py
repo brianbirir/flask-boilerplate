@@ -9,7 +9,7 @@ class User(Resource):
 
     @staticmethod
     def get_secret_key():
-        """Provide secret key config via application context
+        """Provides secret key config via application context
         
         Returns:
             str: Secret key from env
@@ -19,7 +19,7 @@ class User(Resource):
 
     @staticmethod
     def get_user_details_parsed_args():
-        """Parse arguments received from the request.
+        """Parses arguments received from the request.
         
         Returns:
             A dictionary of the parsed request arguments
@@ -34,7 +34,7 @@ class User(Resource):
 
     @staticmethod
     def get_auth_token():
-        """Parse the authentication token from the HTTP request body.
+        """Parses the authentication token from the HTTP request body.
 
         Returns:
             A dictionary of the parsed request argument
@@ -52,7 +52,7 @@ class User(Resource):
 
     @staticmethod
     def get_user_id_parsed_args():
-        """Parse user id arg received from the HTTP request.
+        """Parses user id arg received from the HTTP request.
 
         Returns:
             A dictionary of the parsed request argument
@@ -64,7 +64,7 @@ class User(Resource):
 
     @staticmethod
     def get_user_password_parsed_args():
-        """Parse user password arg received from the HTTP request.
+        """Parses user password arg received from the HTTP request.
 
         Returns:
             A dictionary of the parsed request argument
@@ -76,13 +76,11 @@ class User(Resource):
 
     @staticmethod
     def check_existing_user(email_address):
-        """Return query object of an existing user or null
-
-        """
+        """Returns query object of an existing user or null"""
         return UserModel.query.filter_by(email=email_address).first()
 
     def get(self):
-        """Return user details as HTTP response based on HTTP request
+        """Returns user details as HTTP response based on HTTP request
         
         Returns:
             JSON object: A 200 HTTP status response with details of a user
@@ -90,7 +88,8 @@ class User(Resource):
             JSON object: A 404 HTTP status response for a non-existing user
 
         Raises:
-            Exception: General exceptions aligned to SQLAlchemy in the form of a 500 HTTP status and JSON content-type response
+            Exception: General exceptions aligned to SQLAlchemy in the form of a 500 HTTP status 
+            and JSON content-type response
 
         """
         data_token = self.get_auth_token()
@@ -117,7 +116,7 @@ class User(Resource):
             return {"message": str(e)}, 500
 
     def post(self):
-        """Register a new user
+        """Registers a new user
         
         Returns:
             JSON object: A 200 HTTP status response with name of the user
@@ -144,12 +143,11 @@ class User(Resource):
                 return {"message": "User {} was created".format(data_user_details['name'])}, 200
             else:
                 return {"message": "That email address already exists"}, 400
-
         except Exception as e:
             return {"message": str(e)}, 500
 
     def put(self):
-        """Update details of a user via PUT HTTP request
+        """Updates details of a user via PUT HTTP request
         
         Returns:
             JSON object: A 200 HTTP status response with name of the user that was updated
@@ -177,12 +175,11 @@ class User(Resource):
                 return {"message": "User {} was updated".format(data_user_details['name'])}, 200
             else:
                 return {"message": "This user does not exist"}, 404
-
         except Exception as e:
             return {"message": str(e)}, 500
 
     def delete(self):
-        """Delete a user via DELETE HTTP request
+        """Deletes a user via DELETE HTTP request
         
         Returns:
             JSON object: A 200 HTTP status response with confirmation message of the deleted user
