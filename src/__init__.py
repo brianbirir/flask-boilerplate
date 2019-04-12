@@ -17,11 +17,6 @@ def create_app(config_object='config.DevelopmentConfig'):
 
     """
 
-    # load dot env
-    app_root = os.path.join(os.path.dirname(__file__), '..')
-    dot_env_path = os.path.join(app_root, '.env')
-    load_dotenv(dot_env_path)
-
     # initialize Flask app
     app = Flask(__name__)
     app.config.from_object(config_object)  # load configurations object
