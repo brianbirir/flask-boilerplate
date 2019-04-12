@@ -3,7 +3,7 @@ A Flask boiler plate for kicking off Flask RESTful related development projects.
 
 * ORM implementation using `Flask-SQLalchemy` with connection to any preferred database technology
 * RESTful implementation using `Flask-Restful` module
-* Implementation of user authentication using JWTs (JSON Web Tokens). JWTs usage has been implemented using `pyjwts` library
+* Implementation of resource authentication using JWTs (JSON Web Tokens). JWTs usage has been implemented using `pyjwts` library
 * Implementation of database migrations using `Flask-Migrate` and Alembic. A base and user model have been added in the `model.py` module to allow the creation of the users table in a designated database
 * Unit and functional tests for the above features
 
@@ -39,6 +39,7 @@ grant all privileges on database flask_bp to flask_bp;
 ## Run Application
 
 ### Development Mode:
+#### WSGI Server
 The application is served using Gunicorn WSGI within the project's root folder. Pass the configuration type as an argument. In this case, the configuration is a module and loaded as an object.
 
 ```bash
@@ -53,13 +54,28 @@ python manage.py db migrate
 python manage.py db upgrade
 ```
 
-The application can also be run using the entry point module i.e. `app.py`:
+#### Flask Debug Mode (Local Development Server)
+The application can also be run by adding a Flask app entry point module and naming it as desired e.g. `app.py`. Then add the following code to the entry point module. 
 
-```
-python app.py
+```python
+from src import create_app
+
+
+if __name__ == "__main__":
+    """
+    This module should only be used for development when running this application using the Flask web server.
+    Running this is in production is not recommended hence look at other production level WSGI like Gunicorn
+    """
+    create_app('config.DevelopmentConfig').run('0.0.0.0')
 ```
 
->> When running this Flask application, ensure the virtual environment is activated.
+Then run the app: `python app.py`
+
+You could also check the quick start guide in the [Flask documentation](http://flask.pocoo.org/docs/1.0/quickstart/#debug-mode) on other methods of running the application using the local development server.
+
+>> **Note one:** Never use the Flask development web server in production. That's one big security risk and it's not scalable.
+
+>> **Note two:** When running this Flask application, ensure the virtual environment is activated.
 
 
 ### Production Mode:
@@ -69,4 +85,4 @@ To-Do
 ## To-Do
 * Document sample API using Swagger
 * Dockerize - Add capability to run the application using Docker
-* Update application configuration input 
+* ~~Update application configuration input~~
