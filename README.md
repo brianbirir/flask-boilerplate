@@ -46,7 +46,7 @@ The application is served using Gunicorn WSGI within the project's root folder. 
 gunicorn "src:create_app('config.DevelopmentConfig')"
 ```
 
-However, before the application is executed, there's need to handle database migrations for SQLAlchemy. Flask-Migrate is used to the handle the migration of the database model objects to the PostgrSQL database. The following commands are run in the shell to carry out the migration:
+However, before the application is executed, there's need to handle database migrations for SQLAlchemy. Flask-Migrate is used to the handle the migration of the database model objects to the PostgrSQL database. The following commands are executed in the shell to carry out the migration:
 
 ```
 python manage.py db init

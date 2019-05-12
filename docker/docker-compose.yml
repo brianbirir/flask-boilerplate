@@ -1,0 +1,46 @@
+version: "3.7"
+services:
+  database:
+    container_name: api_database
+    image: api_database:v1
+    restart: always
+    build:
+      context: ../docker/api_database
+    env_file:
+      - ../.env
+    ports:
+      - "8900:5432"
+    expose:
+      - 5432
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - postgres_backup:/backups
+    networks:
+      - api_service
+  
+  web_service:
+    container_name: api_server
+    image: api_server:v1
+    build:
+      context: ../app
+      dockerfile: ../docker/api_server/Dockerfile
+    env_file: 
+      - ../.env
+    ports:
+      - "8000:8000"
+    expose:
+      - 8000
+    depends_on:
+      - database
+    networks:
+      - api_service
+    tty: true
+    volumes:
+      - ../app/:/api_service
+
+volumes:
+  postgres_data: {}
+  postgres_backup: {}
+
+networks:
+  api_service:
