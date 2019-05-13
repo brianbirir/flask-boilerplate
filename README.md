@@ -156,10 +156,11 @@ Of note, is that the Flask application within the Docker container is run using 
 
 With development mode, the application will use the inbuilt Flask web server in order to get debugging messages and the production mode will use Gunicorn.
 
->> A future automation implementation will see the use of 
+>> A future automation implementation will see the use of a Makefile to further reduce the steps of deploying the application's Docker containers
 
 
 ## To-Do
 * Document sample API using Swagger
-* Dockerize - Add capability to run the application using Docker
+* Automatically create application user in PostgreSQL database during Docker image build
+* ~~Dockerize - Add capability to run the application using Docker~~
 * ~~Update application configuration input~~
