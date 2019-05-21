@@ -122,13 +122,15 @@ docker-compose -f docker/docker-compose.yml build --no-cache
 docker-compose -f docker/docker-compose.yml up
 ```
 
-The Flask web application should now be accessible. Since it's a API driven application, make use of tools such as `curl`, PostMan or Insomnia to call the following end point:
+The Flask web application should now be accessible. Since it's an API driven application, make use of tools such as `curl`, PostMan or Insomnia to call the following end point:
 
 `GET /api/test`
 
 The output will be a 200 HTTP response in JSON format to confirm the application is up and running:
 
 `curl -v http://localhost:8000/api/test`
+
+Output:
 
 ```bash
 *   Trying ::1...
