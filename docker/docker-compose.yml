@@ -13,8 +13,8 @@ services:
     expose:
       - 5432
     volumes:
-      - postgres_data:/var/lib/postgresql/data
-      - postgres_backup:/backups
+      - api_database_vol:/var/lib/postgresql/data
+      - api_database_backup_vol:/backups
     networks:
       - api_service
   
@@ -39,8 +39,8 @@ services:
       - ../app/:/api_service
 
 volumes:
-  postgres_data: {}
-  postgres_backup: {}
+  api_database_vol: {}
+  api_database_backup_vol: {}
 
 networks:
   api_service:
