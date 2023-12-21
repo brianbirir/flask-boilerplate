@@ -1,0 +1,24 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+flask = "*"
+gunicorn = "*"
+flask-jwt-extended = "*"
+flask-sqlalchemy = "*"
+psycopg2-binary = "*"
+flask-marshmallow = "*"
+flask-migrate = "*"
+python-dotenv = "*"
+pytest = "*"
+isort = "*"
+requests = "*"
+flask-restx = "*"
+passlib = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.6"
