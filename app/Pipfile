@@ -17,8 +17,10 @@ isort = "*"
 requests = "*"
 flask-restx = "*"
 passlib = "*"
+pytest-flask = "*"
+pytest-xdist = "*"
 
 [dev-packages]
 
 [requires]
-python_version = "3.6"
+python_version = "3.12.1"

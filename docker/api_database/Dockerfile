@@ -1,7 +1,0 @@
-FROM postgres:11.3
-
-ENV POSTGRES_USER api_user
-
-ENV POSTGRES_PASSWORD BbYjg7wY
-
-ENV POSTGRES_DB api_db
