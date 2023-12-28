@@ -7,13 +7,12 @@ from src.test import TestApi
 from src.auth import Login, Logout
 
 
-def create_app(config_object='config.DevelopmentConfig'):
+def create_app(config_object='config.Developl...mentConfig'):
     """
     :param config_object:
     :return: src
 
-    This factory returns the initialized Flask src
-
+    This factory retbnhuujjuujjjjjjjjjjjjjjjjjjhjjuuuhjjjkjkkkikkkkkkkkkkkkkkkkkkkkkkkkkjkjjjjbvcxzxcvbnm      kjhgfdfgjkl;;lkdkldfggjhjgjfhhhjjjjjjjjjjj v
     """
 
     # initialize Flask src
