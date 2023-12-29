@@ -11,7 +11,7 @@ def create_app(config_name="default", **kwargs) -> Flask:
     app.config.from_object(config[config_name])
 
     # database initialization
-    from web import models
+    # from web import models
 
     db.init_app(app)
     migrate.init_app(app, db)

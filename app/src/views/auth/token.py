@@ -9,12 +9,20 @@ from flask_jwt_extended import (
     get_jwt_identity,
     get_jwt,
 )
+from marshmallow import fields
 
 from src.models import RevokedToken
-from src.schema.swagger import token_generation_request
-from src.schema import TokenGenerationRequestSchema
+from src.schema import TokenGenerationSchema
 
 ns_token = Namespace("token", description="Token authorization endpoints")
+
+token_generation_model = ns_token.model(
+    "TokenGenerationRequestModel",
+    {
+        "email": fields.String(description="username of the user in the form of an email address"),
+        "password": fields.String(description="password of the user"),
+    },
+)
 
 
 @ns_token.route("/refresh")
@@ -82,14 +90,14 @@ class RevokeToken(Resource):
 class GenerateToken(Resource):
     """Token generation resource for user"""
 
-    @ns_token.expect(token_generation_request)
+    @ns_token.expect(token_generation_model)
     @ns_token.response(200, "Token generated successfully")
     @ns_token.response(400, "Bad request")
     @ns_token.response(404, "Unable to generate token")
     @ns_token.doc(params={"email": "Email of logged in Farm Cloud dashboard user"})
     def post(self):
         request_body = request.json
-        schema = TokenGenerationRequestSchema()
+        schema = TokenGenerationSchema()
         validation_errors = schema.validate(request_body)
 
         if validation_errors:

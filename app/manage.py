@@ -1,6 +1,6 @@
 from flask_script import Manager
 from flask_migrate import MigrateCommand
-from src import create_app
+from src.main import create_app
 
 
 manager = Manager(create_app())

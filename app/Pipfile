@@ -19,6 +19,8 @@ flask-restx = "*"
 passlib = "*"
 pytest-flask = "*"
 pytest-xdist = "*"
+flask-script = "*"
+marshmallow-sqlalchemy = "*"
 
 [dev-packages]
 

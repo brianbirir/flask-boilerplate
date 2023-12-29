@@ -3,7 +3,7 @@ from flask_restx import Api
 from flask_jwt_extended.exceptions import JWTExtendedException
 from jwt.exceptions import PyJWTError
 
-from src.views.auth.token import ns_auth
+from src.views.auth.token import ns_token
 
 
 api = Api(
@@ -15,7 +15,7 @@ api = Api(
 
 # add namespaces
 api_prefix = '/api/v1/'
-api.add_namespace(ns_auth, path=f'{api_prefix}/auth/')
+api.add_namespace(ns_token, path=f'{api_prefix}/auth/')
 
 @api.errorhandler
 def default_error_handler(error):

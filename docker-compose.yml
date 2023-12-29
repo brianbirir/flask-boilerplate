@@ -34,19 +34,19 @@ services:
     volumes:
       - ./app/:/app
   
-  nginx:
-    image: nginx:1.19-alpine
-    restart: always
-    container_name: flask_web_nginx
-    depends_on:
-      - flask_web_service
-    ports:
-      - 80:80
-    volumes:
-      - ./configs/nginx/default.conf:/etc/nginx/conf.d/default.conf
-    networks:
-      - api_service
-    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+  # nginx:
+  #   image: nginx:1.19-alpine
+  #   restart: always
+  #   container_name: flask_web_nginx
+  #   depends_on:
+  #     - flask_web_service
+  #   ports:
+  #     - 80:80
+  #   volumes:
+  #     - ./configs/nginx/default.conf:/etc/nginx/conf.d/default.conf
+  #   networks:
+  #     - api_service
+  #   command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
 
 volumes:
   api_database_vol: {}

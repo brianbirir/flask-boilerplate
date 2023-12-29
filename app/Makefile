@@ -38,9 +38,9 @@ stop-services:
 
 # database migrations via docker run
 docker-run-migrate:
-	$(DOCKER_RUN) api $(PIPENV) python manage.py migrate --no-input
+	$(DOCKER_RUN) flask_web_service $(PIPENV) python manage.py migrate --no-input
 .PHONY: migrate
 
 docker-run-migrations:
-	$(DOCKER_RUN) api $(PIPENV) python manage.py makemigrations
+	$(DOCKER_RUN) flask_web_service $(PIPENV) python manage.py makemigrations
 .PHONY: migrations
