@@ -136,6 +136,4 @@ dmypy.json
 
 .DS_Store
 
-# ignore migrations folder
-migrations
 # End of https://www.gitignore.io/api/flask

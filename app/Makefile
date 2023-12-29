@@ -36,11 +36,15 @@ stop-services:
 	docker-compose down
 .PHONY: stop-services
 
-# database migrations via docker run
+# database initialization and migrations via docker compose run command
+docker-initialize-db:
+	$(DOCKER_RUN) flask_web_service $(PIPENV) flask db init
+.PHONY: migrations
+
 docker-run-migrate:
-	$(DOCKER_RUN) flask_web_service $(PIPENV) python manage.py migrate --no-input
+	$(DOCKER_RUN) flask_web_service $(PIPENV) flask db migrate
 .PHONY: migrate
 
 docker-run-migrations:
-	$(DOCKER_RUN) flask_web_service $(PIPENV) python manage.py makemigrations
+	$(DOCKER_RUN) flask_web_service $(PIPENV) flask db upgrade
 .PHONY: migrations
