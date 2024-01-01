@@ -10,7 +10,7 @@ db-upgrade:
 .PHONY: migrations
 
 server:
-	gunicorn --bind 0.0.0.0:5000 --timeout 600 --workers 1 "wsgi:create_app()"
+	gunicorn --reload --bind 0.0.0.0:8000 --timeout 600 --workers 1 "wsgi:create_app()"
 .PHONY: server
 
 run-server: \

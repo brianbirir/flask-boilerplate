@@ -54,7 +54,6 @@ class TokenRefresh(Resource):
         )
 
 
-
 @ns_token.route("/revoke")
 class RevokeToken(Resource):
     """Revoke both access and refresh token"""
@@ -90,11 +89,13 @@ class RevokeToken(Resource):
 class GenerateToken(Resource):
     """Token generation resource for user"""
 
-    @ns_token.expect(token_generation_model)
+    # @ns_token.expect(token_generation_model)
     @ns_token.response(200, "Token generated successfully")
     @ns_token.response(400, "Bad request")
     @ns_token.response(404, "Unable to generate token")
-    @ns_token.doc(params={"email": "Email of logged in Farm Cloud dashboard user"})
+    @ns_token.doc(
+        params={"email": "Email of logged in Farm Cloud dashboard user", "password": "User's password"}
+    )
     def post(self):
         request_body = request.json
         schema = TokenGenerationSchema()

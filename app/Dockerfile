@@ -30,5 +30,5 @@ USER webserver
 # final set up
 COPY ./supervisor/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY . ./
-EXPOSE 5000
+EXPOSE 8000
 CMD ["/usr/bin/supervisord","-c","/etc/supervisor/conf.d/supervisord.conf"]
