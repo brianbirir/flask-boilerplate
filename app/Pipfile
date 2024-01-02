@@ -21,6 +21,10 @@ pytest-flask = "*"
 pytest-xdist = "*"
 flask-script = "*"
 marshmallow-sqlalchemy = "*"
+flake8 = "*"
+black = "*"
+pylama = "*"
+mypy = "*"
 
 [dev-packages]
 
