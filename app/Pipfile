@@ -1,0 +1,32 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+flask = "*"
+gunicorn = "*"
+flask-jwt-extended = "*"
+flask-sqlalchemy = "*"
+psycopg2-binary = "*"
+flask-marshmallow = "*"
+flask-migrate = "*"
+python-dotenv = "*"
+pytest = "*"
+isort = "*"
+requests = "*"
+flask-restx = "*"
+passlib = "*"
+pytest-flask = "*"
+pytest-xdist = "*"
+flask-script = "*"
+marshmallow-sqlalchemy = "*"
+flake8 = "*"
+black = "*"
+pylama = "*"
+mypy = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.12.1"

@@ -1,0 +1,56 @@
+version: '3.8'
+services:
+  flask_database:
+    container_name: flask_database
+    image: postgres:14
+    restart: always
+    env_file: ./app/env_configs/.env
+    expose:
+      - '5432'
+    ports:
+      - '2345:5432'
+    volumes:
+      - api_database_vol:/var/lib/postgresql/data
+      - api_database_backup_vol:/backups
+    networks:
+      - api_service
+
+  flask_web_service:
+    container_name: flask_web_service
+    image: flask_web_service:v1
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    env_file: ./app/env_configs/.env
+    ports:
+      - "8000:8000"
+    expose:
+      - 8000
+    depends_on:
+      - flask_database
+    networks:
+      - api_service
+    tty: true
+    volumes:
+      - ./app/:/app
+  
+  # nginx:
+  #   image: nginx:1.19-alpine
+  #   restart: always
+  #   container_name: flask_web_nginx
+  #   depends_on:
+  #     - flask_web_service
+  #   ports:
+  #     - 80:80
+  #   volumes:
+  #     - ./configs/nginx/default.conf:/etc/nginx/conf.d/default.conf
+  #   networks:
+  #     - api_service
+  #   command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+
+volumes:
+  api_database_vol: {}
+  api_database_backup_vol: {}
+
+networks:
+  api_service:
